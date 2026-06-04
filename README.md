@@ -143,10 +143,10 @@ GeoAgent-MCP/
 
 ## 📄 许可证
 
-MIT License © 2026 王总
+MIT License © 2026 风陵渡
 
 ---
 
 <p align="center">
-  <sub>Built with ❤️ by 王总 | Powered by Google Earth Engine & Claude Code</sub>
+  <sub>Built with ❤️ by 风陵渡 | Powered by Google Earth Engine & Claude Code</sub>
 </p>

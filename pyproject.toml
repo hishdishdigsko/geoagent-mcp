@@ -9,7 +9,7 @@ description = "GeoAgent MCP - Google Earth Engine 全流程地理空间分析智
 readme = "README.md"
 license = {text = "MIT"}
 authors = [
-    {name = "王总", email = "geoagent@example.com"}
+    {name = "风陵渡", email = "geoagent@example.com"}
 ]
 keywords = [
     "google-earth-engine",
