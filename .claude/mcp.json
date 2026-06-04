@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "geoagent": {
+      "type": "stdio",
+      "command": "python",
+      "args": ["-m", "geoagent_mcp.server"],
+      "cwd": "${workspaceFolder}/src"
+    }
+  }
+}
