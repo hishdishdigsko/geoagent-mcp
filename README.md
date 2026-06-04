@@ -5,6 +5,7 @@
   <img src="https://img.shields.io/badge/GEE-Google%20Earth%20Engine-34A853?style=for-the-badge&logo=googleearth" alt="GEE">
   <img src="https://img.shields.io/badge/MCP-Model%20Context%20Protocol-purple?style=for-the-badge" alt="MCP">
   <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT">
+  <img src="https://img.shields.io/github/stars/Kevin-cell111/geoagent-mcp?style=for-the-badge" alt="Stars">
   <br>
   <strong>🧠 让 Claude Code 成为你的地理空间分析智能体</strong>
   <br>
@@ -73,18 +74,44 @@
 ### 1. 安装
 
 ```bash
-git clone https://github.com/hishdishdigsko/geoagent-mcp.git
+# 克隆项目
+git clone https://github.com/Kevin-cell111/geoagent-mcp.git
 cd geoagent-mcp
+
+# 安装
 pip install -e .
 ```
 
 ### 2. GEE 认证
 
 ```bash
+# 完成认证（浏览器自动打开）
 earthengine authenticate
+
+# 或使用 CLI 工具
+geoagent-mcp setup
 ```
 
 ### 3. 配置 Claude Code
+
+编辑 Claude Code 的 MCP 配置文件：
+
+**macOS/Linux:** `~/.claude/claude_desktop_config.json` 或项目 `.claude/mcp.json`
+**Windows:** `%USERPROFILE%\.claude\claude_desktop_config.json`
+
+```json
+{
+  "mcpServers": {
+    "geoagent": {
+      "command": "python",
+      "args": ["-m", "geoagent_mcp.server"],
+      "cwd": "/path/to/geoagent-mcp/src"
+    }
+  }
+}
+```
+
+或使用项目级 `.claude/mcp.json` (推荐):
 
 ```json
 {
@@ -101,7 +128,45 @@ earthengine authenticate
 
 ### 4. 开始使用
 
-在 Claude Code 中说：`分析石家庄2015-2025城市扩张`
+在 Claude Code 中直接说：
+
+```
+分析石家庄2015-2025城市扩张
+```
+
+Claude 会自动：
+1. 调用 `geo_search_dataset("城市扩张")` → 匹配 Dynamic World + Sentinel-2
+2. 调用 `geo_plan_workflow(...)` → 生成分析计划
+3. 调用 `geo_execute_analysis(...)` → 自动运行脚本
+4. 呈现交互式地图 + 趋势图 + 数据表
+
+---
+
+## 📸 效果预览
+
+### 交互式地图输出
+
+分析石家庄城市扩张后，自动生成交互式 HTML 地图，包含：
+- 卫星影像底图
+- NDBI 逐年变化图层
+- 建成区边界对比
+- 图层切换控件
+
+### 数据图表
+
+```
+年份  | NDVI_mean | NDBI_mean | 建成区面积(km²)
+2015  |  0.423    |  -0.15    |  385.2
+2016  |  0.431    |  -0.14    |  401.5
+...
+2025  |  0.398    |  -0.08    |  682.1
+
+趋势: 10年建成区扩张 +77.1%
+```
+
+### 分析报告
+
+自动生成结构化 Markdown 报告 → 一键转 PDF
 
 ---
 
@@ -110,7 +175,7 @@ earthengine authenticate
 ```
 GeoAgent-MCP/
 ├── src/geoagent_mcp/
-│   ├── server.py           # MCP Server (10 Tools + 3 Resources)
+│   ├── server.py           # MCP Server (10个 Tools + 3个 Resources)
 │   ├── dataset_brain.py    # 知识库: 10类任务 × 多项数据集
 │   ├── workflow_planner.py # 自然语言 → GEE 分析工作流
 │   ├── executor.py         # 脚本生成器 + 执行引擎
@@ -127,7 +192,47 @@ GeoAgent-MCP/
 
 ---
 
+## 🔧 MCP Tools API
+
+### Tools (10个)
+
+| Tool | 功能 | 参数 |
+|------|------|------|
+| `geo_search_dataset` | 任务→数据集匹配 | `task_type: str` |
+| `geo_plan_workflow` | 自然语言→分析计划 | `user_query: str`, `geojson_path?: str` |
+| `geo_execute_analysis` | 完整分析执行 | `user_query: str` |
+| `geo_generate_script` | 生成GEE脚本 | `user_query: str` |
+| `geo_generate_map` | 生成交互地图 | `center_lat, center_lon, zoom, title` |
+| `geo_generate_report` | 生成分析报告 | `user_query: str` |
+| `geo_export_result` | 导出数据 | `data: str`, `format: str` |
+| `geo_check_auth` | 检查认证状态 | - |
+| `geo_setup_gee` | 初始化GEE | `project_id?: str` |
+| `geo_list_categories` | 列出任务类型 | - |
+
+### Resources (3个)
+
+- `geoagent://datasets` — 数据集目录
+- `geoagent://indices` — 指数公式库
+- `geoagent://output/{subdir}` — 输出文件浏览
+
+### Python API
+
+```python
+from geoagent_mcp import (
+    search_dataset,      # 搜索数据集
+    generate_workflow,   # 生成工作流
+    generate_script,     # 生成脚本
+    execute_script,      # 执行脚本
+    generate_map,        # 生成地图
+    generate_report,     # 生成报告
+)
+```
+
+---
+
 ## 📊 基准数据集
+
+GeoAgent 内置了经过验证的高质量数据集知识库：
 
 - **Dynamic World V1** — Google/WRI 10m 全球土地覆盖
 - **Global Forest Change** — Hansen 30m 森林变化 (2000-2023)
@@ -141,9 +246,27 @@ GeoAgent-MCP/
 
 ---
 
+## 🤝 贡献
+
+欢迎 Issue / PR！
+
+```bash
+# 开发模式
+pip install -e ".[dev]"
+pytest
+```
+
+---
+
 ## 📄 许可证
 
 MIT License © 2026 风陵渡
+
+---
+
+## ⭐ Star 历史
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Kevin-cell111/geoagent-mcp&type=Date)](https://star-history.com/#Kevin-cell111/geoagent-mcp&Date)
 
 ---
 

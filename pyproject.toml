@@ -66,10 +66,10 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/hishdishdigsko/geoagent-mcp"
-Documentation = "https://github.com/hishdishdigsko/geoagent-mcp#readme"
-Repository = "https://github.com/hishdishdigsko/geoagent-mcp"
-Issues = "https://github.com/hishdishdigsko/geoagent-mcp/issues"
+Homepage = "https://github.com/Kevin-cell111/geoagent-mcp"
+Documentation = "https://github.com/Kevin-cell111/geoagent-mcp#readme"
+Repository = "https://github.com/Kevin-cell111/geoagent-mcp"
+Issues = "https://github.com/Kevin-cell111/geoagent-mcp/issues"
 
 [project.scripts]
 geoagent-mcp = "geoagent_mcp.server:main"
