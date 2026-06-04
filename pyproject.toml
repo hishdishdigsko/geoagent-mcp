@@ -1,0 +1,79 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.backends._legacy:_Backend"
+
+[project]
+name = "geoagent-mcp"
+version = "0.1.0"
+description = "GeoAgent MCP - Google Earth Engine 全流程地理空间分析智能 Agent"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "王总", email = "geoagent@example.com"}
+]
+keywords = [
+    "google-earth-engine",
+    "gee",
+    "geospatial",
+    "remote-sensing",
+    "mcp",
+    "model-context-protocol",
+    "claude",
+    "ndvi",
+    "land-use",
+    "urban-expansion",
+    "gis",
+    "earth-observation",
+    "sentinel-2",
+    "landsat",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: GIS",
+    "Topic :: Scientific/Engineering :: Atmospheric Science",
+    "Topic :: Scientific/Engineering :: Visualization",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "mcp>=1.0.0",
+    "earthengine-api>=0.1.400",
+    "geemap>=0.32.0",
+    "geopandas>=0.14.0",
+    "rasterio>=1.3.0",
+    "shapely>=2.0.0",
+    "folium>=0.17.0",
+    "pandas>=2.0.0",
+    "numpy>=1.24.0",
+    "matplotlib>=3.7.0",
+    "seaborn>=0.12.0",
+    "reportlab>=4.0.0",
+    "click>=8.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "black>=23.0",
+    "ruff>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/hishdishdigsko/geoagent-mcp"
+Documentation = "https://github.com/hishdishdigsko/geoagent-mcp#readme"
+Repository = "https://github.com/hishdishdigsko/geoagent-mcp"
+Issues = "https://github.com/hishdishdigsko/geoagent-mcp/issues"
+
+[project.scripts]
+geoagent-mcp = "geoagent_mcp.server:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["geoagent_mcp"]
